@@ -64,7 +64,7 @@ function populateLocalStorage() {
 
 function loadFromLocalStorage() {
     const tasks = JSON.parse(window.localStorage['tasks']);
-    console.log(tasks);
+
     if (tasks.length === 0) return;
 
     const taskHeading = document.querySelector(".task--heading");
@@ -74,10 +74,7 @@ function loadFromLocalStorage() {
     const taskDueDate = document.querySelector(".task--due-date");
     const taskDoneDate = document.querySelector(".task--done-date");
 
-    console.log(window.localStorage['indexer']);
     const id = JSON.parse(window.localStorage['indexer']);
-
-    console.log(taskHeading);
 
     taskHeading.textContent = tasks[id].itemName;
     taskState.textContent = tasks[id].itemState;
