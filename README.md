@@ -13,5 +13,4 @@
 ## Pending Tasks
 
 - Beautiful Design for Cards
-- Export Button
 - Fade out cards after Done
