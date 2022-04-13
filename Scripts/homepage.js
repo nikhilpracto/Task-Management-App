@@ -83,10 +83,12 @@ function populateDashboard() {
     dashboardTasks.innerHTML = "";
     tasks.forEach((task, index) => {
         dashboardTasks.innerHTML += `<div class="task">
-            <div class="task--heading">${task.itemName}</div>
-            <div class="task--state"><b>State:</b> ${task.itemState}</div>
-            <div class="task--team"><b>Team:</b> ${task.itemTeam}</div>
-            <div class="task--due-date"><b>Due Date:</b> ${task.itemDueDate}</div>
+            <div class="task--content">
+                <div class="task--heading">${task.itemName}</div>
+                <div class="task--state"><b>State:</b> ${task.itemState}</div>
+                <div class="task--team"><b>Team:</b> ${task.itemTeam}</div>
+                <div class="task--due-date"><b>Due Date:</b> ${task.itemDueDate}</div>
+            </div> 
             <div class="task--buttons">
                 <button class="btn btn--delete">Delete</button>
             </div>
@@ -120,11 +122,11 @@ function populateDeleteButtons() {
 
 function populateTaskCardsFunctionality() {
     const taskCards = document.querySelectorAll(".task");
-    
+
     taskCards.forEach((task, index) => {
-        if(document.querySelectorAll(".task--state")[index].innerHTML == "<b>State:</b> Done"){
+        if (document.querySelectorAll(".task--state")[index].innerHTML == "<b>State:</b> Done") {
             document.querySelectorAll(".task")[index].classList.add("done");
-        }else{
+        } else {
             document.querySelectorAll(".task")[index].classList.remove("done");
         }
 
