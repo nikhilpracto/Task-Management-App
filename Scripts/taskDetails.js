@@ -77,11 +77,19 @@ function loadFromLocalStorage() {
     const id = JSON.parse(window.localStorage['indexer']);
 
     taskHeading.textContent = tasks[id].itemName;
-    taskState.textContent = tasks[id].itemState;
-    taskTeam.textContent = tasks[id].itemTeam;
-    taskDescription.textContent = tasks[id].itemDescription;
-    taskDueDate.textContent = tasks[id].itemDueDate;
-    taskDoneDate.textContent = tasks[id].itemDoneDate;
+    taskState.innerHTML = `<b>State:</b>`;
+    taskState.innerHTML += tasks[id].itemState;
+    
+    taskTeam.innerHTML = `<b>Team:</b>`;
+    taskTeam.innerHTML += tasks[id].itemTeam;
+
+    taskDescription.innerHTML = tasks[id].itemDescription;
+
+    taskDueDate.innerHTML = `<b>Due Date:</b>`;
+    taskDueDate.innerHTML += tasks[id].itemDueDate;
+
+    taskDoneDate.innerHTML = `<b>Done Date:</b>`;
+    taskDoneDate.innerHTML += tasks[id].itemDoneDate;
 };
 
 loadFromLocalStorage();
