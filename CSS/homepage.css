@@ -281,3 +281,7 @@ body {
 #section--2{
     margin-bottom: 6rem;
 }
+
+.done {
+    background-color: var(--color-primary-opacity);
+}
