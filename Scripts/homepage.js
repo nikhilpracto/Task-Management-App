@@ -138,10 +138,13 @@ populateTaskCardsFunctionality();
 
 // Export Button
 
-// function downloadTasks() {
-//     const tasks = JSON.parse(window.localStorage['tasks']);
-//     const a = document.createElement("a");
-//     const
-// }
+function downloadTasks() {
+    const tasks = JSON.parse(window.localStorage['tasks']);
+    const a = document.createElement("a");
+    const file = new Blob([JSON.stringify(tasks, null, 4)], {type: "text/plain"});
+    a.href = URL.createObjectURL(file);
+    a.download = "tasks-file.json";
+    a.click();
+}
 
-// exportButton.addEventListener('click', downloadTasks);
+exportButton.addEventListener('click', downloadTasks);
