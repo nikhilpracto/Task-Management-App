@@ -121,8 +121,14 @@ function populateDeleteButtons() {
 
 function populateTaskCardsFunctionality() {
     const taskCards = document.querySelectorAll(".task");
-    console.log(taskCards);
+    
     taskCards.forEach((task, index) => {
+        
+        if(document.querySelectorAll(".task--state")[index].innerHTML == "Done"){
+            document.querySelectorAll(".task")[index].classList.add("done");
+        }else{
+            document.querySelectorAll(".task")[index].classList.remove("done");
+        }
         task.addEventListener("click", function (e) {
             e.preventDefault();
             if (!e.target.classList.contains("btn--delete")) {
@@ -141,7 +147,7 @@ populateTaskCardsFunctionality();
 function downloadTasks() {
     const tasks = JSON.parse(window.localStorage['tasks']);
     const a = document.createElement("a");
-    const file = new Blob([JSON.stringify(tasks, null, 4)], {type: "text/plain"});
+    const file = new Blob([JSON.stringify(tasks, null, 4)], { type: "text/plain" });
     a.href = URL.createObjectURL(file);
     a.download = "tasks-file.json";
     a.click();
