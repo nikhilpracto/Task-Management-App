@@ -52,7 +52,6 @@ saveBtn.addEventListener('click', function (e) {
 
     const newTasks = [...tasks,
     {
-        id: tasks.length,
         itemName: taskHeading,
         itemState: taskState,
         itemDescription: taskDescription,

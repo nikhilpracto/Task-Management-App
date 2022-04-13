@@ -42,26 +42,6 @@ document.addEventListener("keydown", function (e) {
 
 // Task Object 
 
-function populateLocalStorage() {
-    const tasks = [
-        {
-            itemName: "ItemName",
-            itemState: "ItemState",
-            itemDescription: "ItemDescription",
-            itemTeam: "ItemTeam",
-            itemDueDate: "ItemDueDate",
-            itemDoneDate: "ItemDoneDate"
-        }
-    ]
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-
-    loadFromLocalStorage();
-}
-
-// Fill the details
-
-// populateLocalStorage();
-
 function loadFromLocalStorage() {
     const tasks = JSON.parse(window.localStorage['tasks']);
 
