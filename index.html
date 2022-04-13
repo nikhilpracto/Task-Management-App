@@ -76,9 +76,9 @@
         <h2 class="modal--header">
             Add Task Details
         </h2>
-        <form class="add--modal--form">
+        <form id="add--form" action="#" class="add--modal--form">
             <label for="item--name">Item Name</label>
-            <input id="item--name" value="" type="text" />
+            <input id="item--name" value="" type="text" required>
             <label for="item--state">State</label>
             <select name="item--state" id="item--state">
                 <option value="Backlog">Backlog</option>
@@ -90,7 +90,7 @@
                 <option value="Done">Done</option>
             </select>
             <label for="item--description">Description</label>
-            <textarea id="item--description" value="" type="text"></textarea>
+            <textarea id="item--description" value="" type="text" required></textarea>
             <label for="item--team">Team</label>
             <select name="item--team" id="item--team">
                 <option value="Frontend">Frontend</option>
@@ -99,10 +99,10 @@
                 <option value="Business Analytics">Business Analytics</option>
             </select>
             <label for="item--due-date">Due Date</label>
-            <input id="item--due-date" value="" type="date" />
+            <input id="item--due-date" value="" type="date" required>
             <label for="item--done-date">Done Date</label>
-            <input id="item--done-date" value="" type="date" />
-            <button class="btn btn--save">Save</button>
+            <input id="item--done-date" value="" type="date" required>
+            <button type="submit" form="add--form" class="btn btn--save">Save</button>
         </form>
     </div>
     <div class="overlay hidden"></div>

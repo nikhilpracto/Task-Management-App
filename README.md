@@ -13,4 +13,3 @@
 ## Pending Tasks
 
 - Beautiful Design for Cards
-- Fade out cards after Done

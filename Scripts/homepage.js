@@ -85,9 +85,9 @@ function populateDashboard() {
     tasks.forEach((task, index) => {
         dashboardTasks.innerHTML += `<div class="task">
             <div class="task--heading">${task.itemName}</div>
-            <div class="task--state">${task.itemState}</div>
-            <div class="task--team">${task.itemTeam}</div>
-            <div class="task--due-date">${task.itemDueDate}</div>
+            <div class="task--state"><b>State:</b> ${task.itemState}</div>
+            <div class="task--team"><b>Team:</b> ${task.itemTeam}</div>
+            <div class="task--due-date"><b>Due Date:</b> ${task.itemDueDate}</div>
             <div class="task--buttons">
                 <button class="btn btn--delete">Delete</button>
             </div>
@@ -108,7 +108,7 @@ function populateDeleteButtons() {
     deleteButtons.forEach((button, index) => {
         button.addEventListener('click', function (e) {
             e.preventDefault();
-            console.log(e);
+
             const tasks = JSON.parse(window.localStorage['tasks']);
             const newTasks = tasks.filter(function (el, ind) {
                 return index != ind;
@@ -123,12 +123,12 @@ function populateTaskCardsFunctionality() {
     const taskCards = document.querySelectorAll(".task");
     
     taskCards.forEach((task, index) => {
-        
-        if(document.querySelectorAll(".task--state")[index].innerHTML == "Done"){
+        if(document.querySelectorAll(".task--state")[index].innerHTML == "<b>State:</b> Done"){
             document.querySelectorAll(".task")[index].classList.add("done");
         }else{
             document.querySelectorAll(".task")[index].classList.remove("done");
         }
+
         task.addEventListener("click", function (e) {
             e.preventDefault();
             if (!e.target.classList.contains("btn--delete")) {
