@@ -7,7 +7,7 @@
     </h2>
     <form class="add--modal--form">
         <label for="item--name">Name</label>
-        <input placeholder="Add a Task Name" id="item--name" size="50" maxlength="50" value="" type="text" autofocus required>
+        <input placeholder="Add a Task Name" id="item--name" maxlength="50" value="" type="text" autofocus required>
         <label for="item--state">State</label>
         <select onchange="check(this);" name="item--state" id="item--state" required>
             <option value="Backlog">Backlog</option>
@@ -39,11 +39,9 @@
 function check(e) {
     console.log("hi");
     if (e.value !== "Done") {
-        console.log("ok");
         document.getElementById("item--done-date").style.visibility = "hidden";
         document.querySelector(`label[for="item--done-date"]`).style.visibility = "hidden";
     } else {
-        console.log("okn");
         document.getElementById("item--done-date").style.visibility = "visible";
         document.querySelector(`label[for="item--done-date"]`).style.visibility = "visible";
     }

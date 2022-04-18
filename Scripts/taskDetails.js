@@ -16,7 +16,6 @@ const openModal = function (e) {
     modal.classList.remove("hidden");
     overlay.classList.remove("hidden");
     const tasks = JSON.parse(window.localStorage['tasks']);
-    const id = JSON.parse(window.localStorage['indexer']);
 
     document.getElementById("item--name").value = tasks[ids].Name;
     document.getElementById("item--state").value = tasks[ids].State;
@@ -24,6 +23,14 @@ const openModal = function (e) {
     document.getElementById("item--description").value = tasks[ids].Description;
     document.getElementById("item--due-date").value = tasks[ids].Dates.DueDate;
     document.getElementById("item--done-date").value = tasks[ids].Dates.DoneDate;
+    
+    if (document.getElementById("item--state").value !== "Done") {
+        document.getElementById("item--done-date").style.visibility = "hidden";
+        document.querySelector(`label[for="item--done-date"]`).style.visibility = "hidden";
+    } else {
+        document.getElementById("item--done-date").style.visibility = "visible";
+        document.querySelector(`label[for="item--done-date"]`).style.visibility = "visible";
+    }
 };
 
 const closeModal = function () {
@@ -66,12 +73,10 @@ function loadFromLocalStorage() {
     const taskDoneDate = document.getElementsByClassName("task--done-date")[0];
     const taskEditButton = document.getElementsByClassName("task--buttons")[0];
 
-    const idd = window.localStorage['indexer'];
-    const id = JSON.parse(idd ? idd : "0");
+    if (data == undefined) return;
+    if (tasks[ids] == undefined) return;
 
     taskHeading.textContent = tasks[ids].Name;
-
-    if (data == undefined) return;
 
     taskState.innerHTML = `<b>State:</b>`;
     taskState.innerHTML += tasks[ids].State;
@@ -84,11 +89,13 @@ function loadFromLocalStorage() {
     taskDueDate.innerHTML = `<b>Due Date:</b>`;
     taskDueDate.innerHTML += tasks[ids].Dates.DueDate;
 
-    if (tasks[id].Dates.DoneDate != "") {
+    if (tasks[ids].Dates.DoneDate != "" && tasks[ids].State == "Done") {
         taskDoneDate.innerHTML = `<b>Done Date:</b>`;
         taskDoneDate.innerHTML += tasks[ids].Dates.DoneDate;
+    } else {
+        taskDoneDate.innerHTML = ``;
+        tasks[ids].Dates.DoneDate = "";
     }
-
 
     taskEditButton.innerHTML += `<button class="btn btn--edit">Edit</button>`;
 
@@ -101,9 +108,6 @@ loadFromLocalStorage();
 
 function updateData(e) {
     const tasks = JSON.parse(window.localStorage['tasks']);
-    const indice = window.localStorage['indexer'];
-
-    const id = JSON.parse(indice != undefined ? indice : "0");
 
     const taskHeading = document.getElementById("item--name").value;
     const taskState = document.getElementById("item--state").value;
@@ -124,7 +128,7 @@ function updateData(e) {
             task.Team = taskTeam;
             task.Description = taskDescription;
             task.Dates.DueDate = taskDueDate;
-            task.Dates.DoneDate = taskDoneDate;
+            task.Dates.DoneDate = taskState === "Done" ? taskDoneDate : "";
         }
     })
 
