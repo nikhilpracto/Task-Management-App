@@ -79,7 +79,6 @@ function populateDashboard() {
     const tasks = JSON.parse(data ? data : []);
     dashboardTasks.innerHTML = "";
     tasks.forEach((task, index) => {
-        console.log(task);
         dashboardTasks.innerHTML += `<div class="task">
             <div class="task--content">
                 <div class="task--heading"></div>
