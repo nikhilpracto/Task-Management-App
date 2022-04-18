@@ -1,5 +1,3 @@
-"use strict";
-
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
@@ -43,8 +41,13 @@ saveBtn.addEventListener('click', function (e) {
     const taskDueDate = document.getElementById("item--due-date").value;
     const taskDoneDate = document.getElementById("item--done-date").value;
 
+    if(taskHeading == "" || taskDescription ==="" || taskDoneDate=="" || taskDoneDate==""){
+        alert('Fields can not be empty');
+        return;
+    }
+
     const taskslength = window.localStorage.length;
-    if (taskslength == 0) {
+    if (taskslength === 0) {
         window.localStorage.setItem('tasks', JSON.stringify([]));
     }
 
@@ -52,12 +55,14 @@ saveBtn.addEventListener('click', function (e) {
 
     const newTasks = [...tasks,
     {
-        itemName: taskHeading,
-        itemState: taskState,
-        itemDescription: taskDescription,
-        itemTeam: taskTeam,
-        itemDueDate: taskDueDate,
-        itemDoneDate: taskDoneDate
+        Name: taskHeading,
+        State: taskState,
+        Description: taskDescription,
+        Team: taskTeam,
+        Dates: {
+            DueDate: taskDueDate,
+            DoneDate: taskDoneDate
+        }
     }
     ];
 
@@ -67,39 +72,31 @@ saveBtn.addEventListener('click', function (e) {
     populateDashboard();
 });
 
-function populateLocalStorage() {
-    const taskslength = window.localStorage.length;
-    if (taskslength == 0) {
-        window.localStorage.setItem('tasks', JSON.stringify([]));
-    }
-}
-
-populateLocalStorage();
-
 // Dashboard Tasks
 
 function populateDashboard() {
-    const tasks = JSON.parse(window.localStorage['tasks']);
+    const data = window.localStorage['tasks']
+    const tasks = JSON.parse(data ? data : []);
     dashboardTasks.innerHTML = "";
     tasks.forEach((task, index) => {
+        console.log(task);
         dashboardTasks.innerHTML += `<div class="task">
             <div class="task--content">
-                <div class="task--heading">${task.itemName}</div>
-                <div class="task--state"><b>State:</b> ${task.itemState}</div>
-                <div class="task--team"><b>Team:</b> ${task.itemTeam}</div>
-                <div class="task--due-date"><b>Due Date:</b> ${task.itemDueDate}</div>
+                <div class="task--heading"></div>
+                <div class="task--state"><b>State:</b> ${task.State}</div>
+                <div class="task--team"><b>Team:</b> ${task.Team}</div>
+                <div class="task--due-date"><b>Due Date:</b> ${task.Dates.DueDate}</div>
             </div> 
             <div class="task--buttons">
                 <button class="btn btn--delete">Delete</button>
             </div>
         </div>`;
+        document.getElementsByClassName("task--heading")[index].textContent = task.Name;
     });
 
     populateDeleteButtons();
     populateTaskCardsFunctionality();
 }
-
-populateDashboard();
 
 // Delete Buttons
 
@@ -134,19 +131,35 @@ function populateTaskCardsFunctionality() {
             e.preventDefault();
             if (!e.target.classList.contains("btn--delete")) {
                 window.localStorage.setItem('indexer', JSON.stringify(index));
-                window.location.href = "./pages/taskDetails.html";
+                window.location.href = `./pages/taskDetails.html?id=${index}`;
             }
         });
     })
 }
 
-populateTaskCardsFunctionality();
+// Main Function
 
+(async function populateLocalStorage() {
+    const tasks = window.localStorage["tasks"];
+    if (tasks === undefined) {
+        await fetch("JSON/initialData.json").then(response => response.json()).then(initialJson => {
+            window.localStorage.setItem('tasks', JSON.stringify(initialJson));
+        })
+    }
+    populateDashboard();
+    populateTaskCardsFunctionality();
+})();
 
 // Export Button
 
 function downloadTasks() {
-    const tasks = JSON.parse(window.localStorage['tasks']);
+    const data = window.localStorage['tasks'];
+    if (data === undefined) {
+        alert("JSON data not available as there are no Tasks");
+        return;
+    }
+    const tasks = JSON.parse(data);
+
     const a = document.createElement("a");
     const file = new Blob([JSON.stringify(tasks, null, 4)], { type: "text/plain" });
     a.href = URL.createObjectURL(file);

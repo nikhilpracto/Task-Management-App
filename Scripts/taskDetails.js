@@ -1,12 +1,13 @@
-"use strict";
-
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
-const btnEditModal = document.querySelector(".btn--edit");
 const nav = document.querySelector(".nav");
 const taskDetails = document.querySelector(".task--details");
 const saveBtn = document.querySelector(".btn--save");
+const somethingWentWrong = `[{"Name":"Something went wrong!!!","State":"In Code Review","Description":"Okay","Team":"Backend","Dates":{"DueDate":"2022-04-20","DoneDate":"2022-04-20"}}]`;
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const ids = urlParams.get('id');
 
 // Modal Window
 
@@ -17,12 +18,12 @@ const openModal = function (e) {
     const tasks = JSON.parse(window.localStorage['tasks']);
     const id = JSON.parse(window.localStorage['indexer']);
 
-    document.getElementById("item--name").value = tasks[id].itemName;
-    document.getElementById("item--state").value = tasks[id].itemState;
-    document.getElementById("item--team").value = tasks[id].itemTeam;
-    document.getElementById("item--description").value = tasks[id].itemDescription;
-    document.getElementById("item--due-date").value = tasks[id].itemDueDate;
-    document.getElementById("item--done-date").value = tasks[id].itemDoneDate;
+    document.getElementById("item--name").value = tasks[ids].Name;
+    document.getElementById("item--state").value = tasks[ids].State;
+    document.getElementById("item--team").value = tasks[ids].Team;
+    document.getElementById("item--description").value = tasks[ids].Description;
+    document.getElementById("item--due-date").value = tasks[ids].Dates.DueDate;
+    document.getElementById("item--done-date").value = tasks[ids].Dates.DoneDate;
 };
 
 const closeModal = function () {
@@ -30,9 +31,19 @@ const closeModal = function () {
     overlay.classList.add("hidden");
 };
 
-btnEditModal.addEventListener('click', openModal);
-btnCloseModal.addEventListener('click', closeModal);
-overlay.addEventListener('click', closeModal);
+function ModalFunctionality() {
+    const btnEditModal = document.getElementsByClassName("btn--edit");
+
+    if (btnEditModal !== undefined)
+        btnEditModal[0].addEventListener('click', openModal);
+
+    if (btnCloseModal !== undefined)
+        btnCloseModal.addEventListener('click', closeModal);
+
+    if (overlay !== undefined)
+        overlay.addEventListener('click', closeModal);
+}
+
 
 document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && !modal.classList.contains("hidden")) {
@@ -43,9 +54,9 @@ document.addEventListener("keydown", function (e) {
 // Task Object 
 
 function loadFromLocalStorage() {
-    const tasks = JSON.parse(window.localStorage['tasks']);
+    const data = window.localStorage['tasks'];
 
-    if (tasks.length === 0) return;
+    const tasks = JSON.parse((data != undefined ? data : somethingWentWrong));
 
     const taskHeading = document.querySelector(".task--heading");
     const taskState = document.querySelector(".task--state");
@@ -53,32 +64,43 @@ function loadFromLocalStorage() {
     const taskDescription = document.querySelector(".task--description");
     const taskDueDate = document.querySelector(".task--due-date");
     const taskDoneDate = document.querySelector(".task--done-date");
+    const taskEditButton = document.querySelector(".task--buttons");
 
-    const id = JSON.parse(window.localStorage['indexer']);
+    const idd = window.localStorage['indexer'];
+    const id = JSON.parse(idd ? idd : "0");
 
-    taskHeading.textContent = tasks[id].itemName;
+    taskHeading.textContent = tasks[ids].Name;
+
+    if (data == undefined) return;
+
     taskState.innerHTML = `<b>State:</b>`;
-    taskState.innerHTML += tasks[id].itemState;
-    
-    taskTeam.innerHTML = `<b>Team:</b>`;
-    taskTeam.innerHTML += tasks[id].itemTeam;
+    taskState.innerHTML += tasks[ids].State;
 
-    taskDescription.innerHTML = tasks[id].itemDescription;
+    taskTeam.innerHTML = `<b>Team:</b>`;
+    taskTeam.innerHTML += tasks[ids].Team;
+
+    taskDescription.innerHTML = tasks[ids].Description.replace(/\n/g, '<br/>');
 
     taskDueDate.innerHTML = `<b>Due Date:</b>`;
-    taskDueDate.innerHTML += tasks[id].itemDueDate;
+    taskDueDate.innerHTML += tasks[ids].Dates.DueDate;
 
     taskDoneDate.innerHTML = `<b>Done Date:</b>`;
-    taskDoneDate.innerHTML += tasks[id].itemDoneDate;
+    taskDoneDate.innerHTML += tasks[ids].Dates.DoneDate;
+
+    taskEditButton.innerHTML += `<button class="btn btn--edit">Edit</button>`;
+
+    ModalFunctionality();
 };
 
 loadFromLocalStorage();
 
 // Update Task Details in Tasks Item 
 
-function updateData() {
+function updateData(e) {
     const tasks = JSON.parse(window.localStorage['tasks']);
-    const id = JSON.parse(window.localStorage['indexer']);
+    const indice = window.localStorage['indexer'];
+
+    const id = JSON.parse(indice != undefined ? indice : "0");
 
     const taskHeading = document.getElementById("item--name").value;
     const taskState = document.getElementById("item--state").value;
@@ -87,20 +109,26 @@ function updateData() {
     const taskDueDate = document.getElementById("item--due-date").value;
     const taskDoneDate = document.getElementById("item--done-date").value;
 
+    if (taskHeading == "" || taskDescription === "" || taskDoneDate == "" || taskDoneDate == "") {
+        alert('Fields can not be empty');
+        return;
+    }
+
     tasks.forEach((task, index) => {
-        if (index == id) {
-            task.itemName = taskHeading;
-            task.itemState = taskState;
-            task.itemTeam = taskTeam;
-            task.itemDescription = taskDescription;
-            task.itemDueDate = taskDueDate;
-            task.itemDoneDate = taskDoneDate;
+        if (index == ids) {
+            task.Name = taskHeading;
+            task.State = taskState;
+            task.Team = taskTeam;
+            task.Description = taskDescription;
+            task.Dates.DueDate = taskDueDate;
+            task.Dates.DoneDate = taskDoneDate;
         }
     })
 
     window.localStorage.setItem('tasks', JSON.stringify(tasks));
-
-    loadFromLocalStorage();
+    e.preventDefault();
+    window.location.href = queryString;
+    // loadFromLocalStorage();
 }
 
 saveBtn.addEventListener('click', updateData);
