@@ -129,6 +129,7 @@ body {
     font-size: 1.5rem;
     font-weight: 100;
     color: #6668;
+    word-wrap: break-word;
 }
 
 .task--due-date {

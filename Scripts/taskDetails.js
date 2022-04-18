@@ -84,8 +84,11 @@ function loadFromLocalStorage() {
     taskDueDate.innerHTML = `<b>Due Date:</b>`;
     taskDueDate.innerHTML += tasks[ids].Dates.DueDate;
 
-    taskDoneDate.innerHTML = `<b>Done Date:</b>`;
-    taskDoneDate.innerHTML += tasks[ids].Dates.DoneDate;
+    if (tasks[id].Dates.DoneDate != "") {
+        taskDoneDate.innerHTML = `<b>Done Date:</b>`;
+        taskDoneDate.innerHTML += tasks[ids].Dates.DoneDate;
+    }
+
 
     taskEditButton.innerHTML += `<button class="btn btn--edit">Edit</button>`;
 
