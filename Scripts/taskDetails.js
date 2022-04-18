@@ -1,9 +1,9 @@
-const modal = document.querySelector(".modal");
-const overlay = document.querySelector(".overlay");
-const btnCloseModal = document.querySelector(".btn--close-modal");
-const nav = document.querySelector(".nav");
-const taskDetails = document.querySelector(".task--details");
-const saveBtn = document.querySelector(".btn--save");
+const modal = document.getElementsByClassName("modal")[0];
+const overlay = document.getElementsByClassName("overlay")[0];
+const btnCloseModal = document.getElementsByClassName("btn--close-modal")[0];
+const nav = document.getElementsByClassName("nav")[0];
+const taskDetails = document.getElementsByClassName("task--details")[0];
+const saveBtn = document.getElementsByClassName("btn--save")[0];
 const somethingWentWrong = `[{"Name":"Something went wrong!!!","State":"In Code Review","Description":"Okay","Team":"Backend","Dates":{"DueDate":"2022-04-20","DoneDate":"2022-04-20"}}]`;
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -58,13 +58,13 @@ function loadFromLocalStorage() {
 
     const tasks = JSON.parse((data != undefined ? data : somethingWentWrong));
 
-    const taskHeading = document.querySelector(".task--heading");
-    const taskState = document.querySelector(".task--state");
-    const taskTeam = document.querySelector(".task--team");
-    const taskDescription = document.querySelector(".task--description");
-    const taskDueDate = document.querySelector(".task--due-date");
-    const taskDoneDate = document.querySelector(".task--done-date");
-    const taskEditButton = document.querySelector(".task--buttons");
+    const taskHeading = document.getElementsByClassName("task--heading")[0];
+    const taskState = document.getElementsByClassName("task--state")[0];
+    const taskTeam = document.getElementsByClassName("task--team")[0];
+    const taskDescription = document.getElementsByClassName("task--description")[0];
+    const taskDueDate = document.getElementsByClassName("task--due-date")[0];
+    const taskDoneDate = document.getElementsByClassName("task--done-date")[0];
+    const taskEditButton = document.getElementsByClassName("task--buttons")[0];
 
     const idd = window.localStorage['indexer'];
     const id = JSON.parse(idd ? idd : "0");
@@ -109,7 +109,7 @@ function updateData(e) {
     const taskDueDate = document.getElementById("item--due-date").value;
     const taskDoneDate = document.getElementById("item--done-date").value;
 
-    if (taskHeading == "" || taskDescription === "" || taskDoneDate == "" || taskDoneDate == "") {
+    if (taskHeading == "" || taskDescription === "" || taskDueDate == "" || (taskState == "Done" && taskDoneDate == "")) {
         alert('Fields can not be empty');
         return;
     }

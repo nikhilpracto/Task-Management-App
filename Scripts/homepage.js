@@ -1,11 +1,11 @@
-const modal = document.querySelector(".modal");
-const overlay = document.querySelector(".overlay");
-const btnCloseModal = document.querySelector(".btn--close-modal");
-const btnAddModal = document.querySelector(".btn--add-modal");
-const nav = document.querySelector(".nav");
-const saveBtn = document.querySelector(".btn--save");
-const dashboardTasks = document.querySelector(".dashboard--tasks");
-const exportButton = document.querySelector(".btn--export");
+const modal = document.getElementsByClassName("modal")[0];
+const overlay = document.getElementsByClassName("overlay")[0];
+const btnCloseModal = document.getElementsByClassName("btn--close-modal")[0];
+const btnAddModal = document.getElementsByClassName("btn--add-modal")[0];
+const nav = document.getElementsByClassName("nav")[0];
+const saveBtn = document.getElementsByClassName("btn--save")[0];
+const dashboardTasks = document.getElementsByClassName("dashboard--tasks")[0];
+const exportButton = document.getElementsByClassName("btn--export")[0];
 
 // Modal Window
 
@@ -41,7 +41,7 @@ saveBtn.addEventListener('click', function (e) {
     const taskDueDate = document.getElementById("item--due-date").value;
     const taskDoneDate = document.getElementById("item--done-date").value;
 
-    if(taskHeading == "" || taskDescription ==="" || taskDoneDate=="" || taskDoneDate==""){
+    if(taskHeading == "" || taskDescription ==="" || taskDueDate=="" || (taskState == "Done" && taskDoneDate == "")){
         alert('Fields can not be empty');
         return;
     }

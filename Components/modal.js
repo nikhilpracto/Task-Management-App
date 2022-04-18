@@ -9,7 +9,7 @@
         <label for="item--name">Name</label>
         <input placeholder="Add a Task Name" id="item--name" size="50" maxlength="50" value="" type="text" autofocus required>
         <label for="item--state">State</label>
-        <select name="item--state" id="item--state" required>
+        <select onchange="check(this);" name="item--state" id="item--state" required>
             <option value="Backlog">Backlog</option>
             <option value="Blocked">Blocked</option>
             <option value="Selected for Development">Selected for Development</option>
@@ -35,3 +35,16 @@
     </form>
 </div>`;
 })();
+
+function check(e) {
+    console.log("hi");
+    if (e.value !== "Done") {
+        console.log("ok");
+        document.getElementById("item--done-date").style.visibility = "hidden";
+        document.querySelector(`label[for="item--done-date"]`).style.visibility = "hidden";
+    } else {
+        console.log("okn");
+        document.getElementById("item--done-date").style.visibility = "visible";
+        document.querySelector(`label[for="item--done-date"]`).style.visibility = "visible";
+    }
+}

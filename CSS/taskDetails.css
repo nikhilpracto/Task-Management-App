@@ -235,6 +235,10 @@ body {
     opacity: 0;
 }
 
+label[for="item--done-date"], #item--done-date {
+    visibility: hidden;
+}
+
 /* Form Styling */
 
 textarea:invalid, input:invalid {

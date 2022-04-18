@@ -275,6 +275,10 @@ body {
     background-color: var(--color-primary);
 }
 
+label[for="item--done-date"], #item--done-date {
+    visibility: hidden;
+}
+
 /* Export Button */
 
 .btn--export {
